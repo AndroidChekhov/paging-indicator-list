@@ -6,8 +6,9 @@ import androidx.paging.PagedList
 import com.androidchekhov.pagingrecyclerview.domain.Comment
 import com.androidchekhov.pagingrecyclerview.domain.CommentsDataSource
 import com.androidchekhov.pagingrecyclerview.domain.CommentsStore
+import javax.inject.Inject
 
-class PagedListCommentsRepository(
+class PagedListCommentsRepository @Inject constructor(
     private val store: CommentsStore,
     private val commentsRepository: CommentsRepository
 
@@ -20,6 +21,7 @@ class PagedListCommentsRepository(
 
     fun getPagedList() : LiveData<PagedList<Comment>>   {
         val factory = CommentsDataSource.Factory(store, commentsRepository)
+
         return LivePagedListBuilder(factory, pagedListConfig)
             .build()
     }

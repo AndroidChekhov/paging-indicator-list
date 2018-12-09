@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidchekhov.pagingrecyclerview.domain.CommentsStore
 import com.androidchekhov.pagingrecyclerview.repository.PagedListCommentsRepository
+import javax.inject.Inject
 
-class ViewModelFactory(
-    private val store: CommentsStore,
-    private val pagedListCommentsRepository: PagedListCommentsRepository
+class ViewModelFactory @Inject constructor(
+    val store: CommentsStore,
+    val pagedListCommentsRepository: PagedListCommentsRepository
 ): ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

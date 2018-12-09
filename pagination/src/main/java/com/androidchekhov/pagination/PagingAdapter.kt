@@ -32,7 +32,7 @@ abstract class PagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        return when(viewType.equals(PAGING_VIEW_TYPE)) {
+        return when(viewType == PAGING_VIEW_TYPE) {
             true -> onCreatePagingViewHolder(parent)
             false -> onCreateDataViewHolder(parent, viewType)
         }

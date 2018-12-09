@@ -7,15 +7,16 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.inject.Inject
 
 
-class CommentsDataSource(
+class CommentsDataSource @Inject constructor(
     private val store: CommentsStore,
     private val commentsRepository: CommentsRepository
 ) : PageKeyedDataSource<Int, Comment>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Comment>) {
-        store.logAndSend(OnFirstPageResults)
+        store.logAndSend(OnFirstPageLoading)
 
         GlobalScope.launch {
             val comments = commentsRepository.getComments(1)
@@ -32,8 +33,6 @@ class CommentsDataSource(
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Comment>) {
         store.logAndSend(OnNextPageLoading)
-
-        store.logAndSend(OnFirstPageResults)
 
         GlobalScope.launch {
             val comments = commentsRepository.getComments(params.key)

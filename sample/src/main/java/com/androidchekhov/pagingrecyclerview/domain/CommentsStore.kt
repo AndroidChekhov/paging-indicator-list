@@ -2,10 +2,13 @@ package com.androidchekhov.pagingrecyclerview.domain
 
 import com.androidchekhov.pagingrecyclerview.arch.StateObserver
 import com.androidchekhov.pagingrecyclerview.arch.Store
+import javax.inject.Inject
 
-class CommentsStore: Store<CommentsEvent, CommentsState> {
+class CommentsStore @Inject constructor(
+    initialState: CommentsState
+): Store<CommentsEvent, CommentsState> {
 
-    private lateinit var state : CommentsState
+    private var state : CommentsState = initialState
 
     private val observers = mutableListOf<StateObserver<CommentsState>>()
 

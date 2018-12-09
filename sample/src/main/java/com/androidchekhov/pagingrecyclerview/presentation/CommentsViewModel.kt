@@ -9,23 +9,30 @@ import com.androidchekhov.pagingrecyclerview.domain.Comment
 import com.androidchekhov.pagingrecyclerview.domain.CommentsState
 import com.androidchekhov.pagingrecyclerview.domain.CommentsStore
 import com.androidchekhov.pagingrecyclerview.repository.PagedListCommentsRepository
+import java.util.logging.Logger
+import javax.inject.Inject
 
-class CommentsViewModel(
+class CommentsViewModel @Inject constructor(
     store: CommentsStore,
     private val commentsRepository: PagedListCommentsRepository
 ) : ViewModel(), StateObserver<CommentsState> {
+
+    val state = MutableLiveData<CommentsState>()
+
+    val pagedList: LiveData<PagedList<Comment>> by lazy {
+        commentsRepository.getPagedList()
+    }
 
     init {
         store.observe(this)
     }
 
-    val state = MutableLiveData<CommentsState>()
-    lateinit var pagedList : LiveData<PagedList<Comment>>
-
-    fun getComments() { pagedList = commentsRepository.getPagedList() }
-
     override fun stateChanged(oldState: CommentsState?, newState: CommentsState) {
-        state.value = newState
+        state.postValue(newState)
+    }
+
+    companion object {
+        val logger = Logger.getLogger(CommentsViewModel::class.java.simpleName)
     }
 }
 
