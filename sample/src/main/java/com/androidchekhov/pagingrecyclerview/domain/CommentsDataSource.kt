@@ -16,12 +16,12 @@ class CommentsDataSource @Inject constructor(
 ) : PageKeyedDataSource<Int, Comment>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Comment>) {
-        store.logAndSend(OnFirstPageLoading)
+        store.logAndSend(OnFirstPageLoading, "loading first page")
 
         GlobalScope.launch {
             val comments = commentsRepository.getComments(1)
 
-            store.logAndSend(OnFirstPageResults)
+            store.logAndSend(OnFirstPageResults,"result size: ${comments.size}")
 
             callback.onResult(
                 comments,
@@ -32,12 +32,12 @@ class CommentsDataSource @Inject constructor(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Comment>) {
-        store.logAndSend(OnNextPageLoading)
+        store.logAndSend(OnNextPageLoading, "loading page ${params.key}")
 
         GlobalScope.launch {
             val comments = commentsRepository.getComments(params.key)
 
-            store.logAndSend(OnNextPageResults)
+            store.logAndSend(OnNextPageResults, "result size: ${comments.size}")
 
             callback.onResult(
                 comments,
@@ -61,8 +61,8 @@ class CommentsDataSource @Inject constructor(
         )
     }
 
-    private fun CommentsStore.logAndSend(event: CommentsEvent) {
-        logger.log(Level.INFO, event::class.java.simpleName)
+    private fun CommentsStore.logAndSend(event: CommentsEvent, message: String) {
+        logger.log(Level.INFO, message)
         send(event)
     }
 

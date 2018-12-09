@@ -14,15 +14,13 @@ class CommentsPagingAdapter: PagingAdapter<Comment, RecyclerView.ViewHolder>(Com
     override fun getViewType(pos: Int): Int = 1
 
     override fun onCreatePagingViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_loading, parent, false)
+        val view = inflate(parent, R.layout.item_loading)
 
         return PagingViewHolder(view)
     }
 
     override fun onCreateDataViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_comment, parent, false)
+        val view = inflate(parent, R.layout.item_comment)
 
         return CommentViewHolder(view)
     }
@@ -36,7 +34,17 @@ class CommentsPagingAdapter: PagingAdapter<Comment, RecyclerView.ViewHolder>(Com
             }
     }
 
-    class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private fun inflate(parent: ViewGroup, layoutRes: Int): View {
+        val inflater = LayoutInflater.from(parent.context)
 
-    class PagingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        return inflater.inflate(layoutRes, parent, false)
+    }
+
+    class CommentViewHolder(
+            itemView: View
+    ) : RecyclerView.ViewHolder(itemView)
+
+    class PagingViewHolder(
+            itemView: View
+    ) : RecyclerView.ViewHolder(itemView)
 }

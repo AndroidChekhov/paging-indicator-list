@@ -9,7 +9,6 @@ import com.androidchekhov.pagingrecyclerview.domain.Comment
 import com.androidchekhov.pagingrecyclerview.domain.CommentsState
 import com.androidchekhov.pagingrecyclerview.domain.CommentsStore
 import com.androidchekhov.pagingrecyclerview.repository.PagedListCommentsRepository
-import java.util.logging.Logger
 import javax.inject.Inject
 
 class CommentsViewModel @Inject constructor(
@@ -29,10 +28,6 @@ class CommentsViewModel @Inject constructor(
 
     override fun stateChanged(oldState: CommentsState?, newState: CommentsState) {
         state.postValue(newState)
-    }
-
-    companion object {
-        val logger = Logger.getLogger(CommentsViewModel::class.java.simpleName)
     }
 }
 

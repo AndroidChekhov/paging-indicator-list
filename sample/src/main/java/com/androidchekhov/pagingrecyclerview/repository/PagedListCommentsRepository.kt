@@ -14,8 +14,6 @@ class PagedListCommentsRepository @Inject constructor(
 
 ) {
     private val pagedListConfig = PagedList.Config.Builder()
-        .setEnablePlaceholders(false)
-        .setInitialLoadSizeHint(NUM_COMMENTS_INITIAL_LOAD)
         .setPageSize(PAGE_SIZE)
         .build()
 
@@ -27,7 +25,6 @@ class PagedListCommentsRepository @Inject constructor(
     }
 
     companion object {
-        private const val NUM_COMMENTS_INITIAL_LOAD = 50;
-        private const val PAGE_SIZE = 25;
+        private const val PAGE_SIZE = 20
     }
 }
