@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidchekhov.pagingrecyclerview.CommentsApplication
 import com.androidchekhov.pagingrecyclerview.R
@@ -29,7 +30,7 @@ class CommentsActivity : AppCompatActivity() {
 
         (application as CommentsApplication).commentsComponent.inject(this)
 
-        pagingRecyclerView.layoutManager = LinearLayoutManager(this)
+        pagingRecyclerView.layoutManager = GridLayoutManager(this, DEFAULT_SPAN_COUNT)
         pagingRecyclerView.adapter = adapter
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[CommentsViewModel::class.java]
@@ -48,5 +49,9 @@ class CommentsActivity : AppCompatActivity() {
         viewModel.pagedList.observeNonNull(this) {
             adapter.submitList(it)
         }
+    }
+
+    companion object {
+        private const val DEFAULT_SPAN_COUNT = 2
     }
 }

@@ -11,20 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
  */
 open class PagingRecyclerView : RecyclerView {
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        init()
-    }
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
-    private fun init() {
-        (layoutManager as? GridLayoutManager)?.let {
+    override fun setLayoutManager(layout: LayoutManager?) {
+        (layout as? GridLayoutManager)?.let {
             it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (adapter?.getItemViewType(position)) {
@@ -34,6 +28,7 @@ open class PagingRecyclerView : RecyclerView {
                 }
             }
         }
+        super.setLayoutManager(layout)
     }
 
     /**
