@@ -1,4 +1,4 @@
-package com.androidchekhov.pagingrecyclerview.domain
+package com.androidchekhov.pagingrecyclerview.repository
 
 data class Comment(
     val id: String,

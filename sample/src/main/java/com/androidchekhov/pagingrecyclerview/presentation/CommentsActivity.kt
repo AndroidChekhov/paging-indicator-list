@@ -29,8 +29,8 @@ class CommentsActivity : AppCompatActivity() {
 
         (application as CommentsApplication).commentsComponent.inject(this)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        pagingRecyclerView.layoutManager = LinearLayoutManager(this)
+        pagingRecyclerView.adapter = adapter
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[CommentsViewModel::class.java]
 

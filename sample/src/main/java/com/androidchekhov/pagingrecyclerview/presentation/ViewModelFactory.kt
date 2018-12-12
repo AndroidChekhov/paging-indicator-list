@@ -7,8 +7,8 @@ import com.androidchekhov.pagingrecyclerview.repository.PagedListCommentsReposit
 import javax.inject.Inject
 
 class ViewModelFactory @Inject constructor(
-    val store: CommentsStore,
-    val pagedListCommentsRepository: PagedListCommentsRepository
+    private val store: CommentsStore,
+    private val pagedListCommentsRepository: PagedListCommentsRepository
 ): ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

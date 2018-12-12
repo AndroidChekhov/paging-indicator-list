@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.androidchekhov.pagination.PagingAdapter
 import com.androidchekhov.pagingrecyclerview.R
-import com.androidchekhov.pagingrecyclerview.domain.Comment
+import com.androidchekhov.pagingrecyclerview.repository.Comment
 import kotlinx.android.synthetic.main.item_comment.view.*
+
 
 class CommentsPagingAdapter: PagingAdapter<Comment, RecyclerView.ViewHolder>(CommentsDiffCallback()) {
 
@@ -24,6 +25,7 @@ class CommentsPagingAdapter: PagingAdapter<Comment, RecyclerView.ViewHolder>(Com
 
         return CommentViewHolder(view)
     }
+
     override fun onBindDataViewHolder(holder: RecyclerView.ViewHolder, pos: Int) {
             getItem(pos)?.let {
                 with(holder.itemView) {
@@ -40,11 +42,13 @@ class CommentsPagingAdapter: PagingAdapter<Comment, RecyclerView.ViewHolder>(Com
         return inflater.inflate(layoutRes, parent, false)
     }
 
-    class CommentViewHolder(
-            itemView: View
-    ) : RecyclerView.ViewHolder(itemView)
+    /**
+     * A [RecyclerView.ViewHolder] for a comment view.
+     */
+    class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    class PagingViewHolder(
-            itemView: View
-    ) : RecyclerView.ViewHolder(itemView)
+    /**
+     * A [RecyclerView.ViewHolder] for a progress indicator.
+     */
+    class PagingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

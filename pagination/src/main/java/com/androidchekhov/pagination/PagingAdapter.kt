@@ -5,44 +5,67 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ *  An abstract [PagedListAdapter] that adds and removes a paging view to indicate that a new page is being loaded, as
+ *  [isPaging] is updated.
+ */
 abstract class PagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(
-    itemCallback: DiffUtil.ItemCallback<T>
+        itemCallback: DiffUtil.ItemCallback<T>
 ) : PagedListAdapter<T, VH>(itemCallback) {
 
-    abstract fun getViewType(pos: Int) : Int
-
-    abstract fun onCreatePagingViewHolder(parent: ViewGroup): VH
-
-    abstract fun onCreateDataViewHolder(parent: ViewGroup, viewType: Int): VH
-
-    abstract fun onBindDataViewHolder(holder: VH, pos: Int)
-
-    var isPaging : Boolean = false
+    var isPaging: Boolean = false
         set(value) {
             field = value
 
             notifyItemChanged(itemCount)
         }
 
-    override fun getItemViewType(position: Int): Int {
-        return when(isPaging && isPositionOfPagingView(position)) {
+    /**
+     * Get view type at position [pos]. Equivalent to [getItemViewType].
+     */
+    abstract fun getViewType(pos: Int): Int
+
+    /**
+     * Create the paging view holder.
+     */
+    abstract fun onCreatePagingViewHolder(parent: ViewGroup): VH
+
+    /**
+     * Create any view holders here. Equivalent to [onCreateViewHolder].
+     */
+    abstract fun onCreateDataViewHolder(parent: ViewGroup, viewType: Int): VH
+
+    /**
+     * Bind data to view holders.  Equivalent to [onBindDataViewHolder]. Note, this will never be called for the paging
+     * view holder created in [onCreatePagingViewHolder].
+     */
+    abstract fun onBindDataViewHolder(holder: VH, pos: Int)
+
+    final override fun getItemViewType(position: Int): Int {
+        return when (isPaging && isPositionOfPagingView(position)) {
             true -> PAGING_VIEW_TYPE
             false -> getViewType(position)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        return when(viewType == PAGING_VIEW_TYPE) {
+    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        return when (viewType == PAGING_VIEW_TYPE) {
             true -> onCreatePagingViewHolder(parent)
             false -> onCreateDataViewHolder(parent, viewType)
         }
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        if (!isPositionOfPagingView(position)) { onBindDataViewHolder(holder, position) }
+    final override fun onBindViewHolder(holder: VH, position: Int) {
+        if (!isPositionOfPagingView(position)) {
+            onBindDataViewHolder(holder, position)
+        }
     }
 
-    override fun getItemCount(): Int {
+    final override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>) {
+        onBindViewHolder(holder, position)
+    }
+
+    final override fun getItemCount(): Int {
         val count = currentList?.size ?: 0
 
         return when (isPaging) {
@@ -51,7 +74,7 @@ abstract class PagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(
         }
     }
 
-    private fun isPositionOfPagingView(pos: Int) : Boolean = pos == currentList?.size
+    private fun isPositionOfPagingView(pos: Int): Boolean = pos == currentList?.size
 
     companion object {
         const val PAGING_VIEW_TYPE = -1

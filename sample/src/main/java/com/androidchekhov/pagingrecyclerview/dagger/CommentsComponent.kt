@@ -1,6 +1,5 @@
 package com.androidchekhov.pagingrecyclerview.dagger
 
-import androidx.lifecycle.LifecycleOwner
 import com.androidchekhov.pagingrecyclerview.presentation.CommentsActivity
 import dagger.Component
 import javax.inject.Singleton

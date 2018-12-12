@@ -2,6 +2,7 @@ package com.androidchekhov.pagingrecyclerview.domain
 
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.androidchekhov.pagingrecyclerview.repository.Comment
 import com.androidchekhov.pagingrecyclerview.repository.CommentsRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
