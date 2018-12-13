@@ -17,7 +17,7 @@ abstract class PagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(
         set(value) {
             field = value
 
-            notifyItemChanged(itemCount)
+            notifyDataSetChanged()
         }
 
     /**

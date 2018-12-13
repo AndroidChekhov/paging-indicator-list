@@ -26,7 +26,7 @@ class MockCommentsRepository : CommentsRepository {
         private const val MAX_PAGES = 5
         private const val COMMENTS_PER_PAGE = 20
 
-        private val DELAY_SEC = TimeUnit.SECONDS.toMillis(3)
+        private val DELAY_SEC = TimeUnit.SECONDS.toMillis(2)
     }
 
     private fun createMockComment(id: Int): Comment =

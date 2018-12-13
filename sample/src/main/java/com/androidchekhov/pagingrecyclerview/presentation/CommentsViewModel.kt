@@ -8,6 +8,8 @@ import com.androidchekhov.pagingrecyclerview.arch.StateObserver
 import com.androidchekhov.pagingrecyclerview.repository.Comment
 import com.androidchekhov.pagingrecyclerview.domain.CommentsState
 import com.androidchekhov.pagingrecyclerview.domain.CommentsStore
+import com.androidchekhov.pagingrecyclerview.domain.LoadingFirstPage
+import com.androidchekhov.pagingrecyclerview.domain.Refreshing
 import com.androidchekhov.pagingrecyclerview.repository.PagedListCommentsRepository
 import javax.inject.Inject
 
@@ -18,6 +20,8 @@ class CommentsViewModel @Inject constructor(
 
     val state = MutableLiveData<CommentsState>()
 
+    private var isRefreshing = false
+
     val pagedList: LiveData<PagedList<Comment>> by lazy {
         commentsRepository.getPagedList()
     }
@@ -27,7 +31,20 @@ class CommentsViewModel @Inject constructor(
     }
 
     override fun stateChanged(oldState: CommentsState?, newState: CommentsState) {
-        state.postValue(newState)
+        when(newState) {
+            is LoadingFirstPage -> {
+                if (isRefreshing) Refreshing else LoadingFirstPage
+            }
+            else -> newState
+        }.also {
+            isRefreshing = false
+            state.postValue(it)
+        }
+    }
+
+    fun refresh() {
+        isRefreshing = true
+        pagedList.value?.dataSource?.invalidate()
     }
 }
 

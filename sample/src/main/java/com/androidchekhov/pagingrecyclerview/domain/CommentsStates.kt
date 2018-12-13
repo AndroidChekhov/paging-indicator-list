@@ -10,3 +10,4 @@ object Paging : CommentsState()
 
 object Results : CommentsState()
 
+object Refreshing: CommentsState()

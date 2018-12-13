@@ -22,7 +22,7 @@ class CommentsDataSource @Inject constructor(
         GlobalScope.launch {
             val comments = commentsRepository.getComments(1)
 
-            store.logAndSend(OnFirstPageResults,"result size: ${comments.size}")
+            store.logAndSend(OnFirstPageResults,"first page result size: ${comments.size}")
 
             callback.onResult(
                 comments,
@@ -38,7 +38,7 @@ class CommentsDataSource @Inject constructor(
         GlobalScope.launch {
             val comments = commentsRepository.getComments(params.key)
 
-            store.logAndSend(OnNextPageResults, "result size: ${comments.size}")
+            store.logAndSend(OnNextPageResults, "page ${params.key} result size: ${comments.size}")
 
             callback.onResult(
                 comments,

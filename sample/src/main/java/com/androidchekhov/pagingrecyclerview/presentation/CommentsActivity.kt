@@ -1,16 +1,17 @@
 package com.androidchekhov.pagingrecyclerview.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidchekhov.pagingrecyclerview.CommentsApplication
 import com.androidchekhov.pagingrecyclerview.R
 import com.androidchekhov.pagingrecyclerview.arch.observeNonNull
 import com.androidchekhov.pagingrecyclerview.domain.LoadingFirstPage
 import com.androidchekhov.pagingrecyclerview.domain.Paging
+import com.androidchekhov.pagingrecyclerview.domain.Refreshing
 import com.androidchekhov.pagingrecyclerview.domain.Results
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -30,17 +31,16 @@ class CommentsActivity : AppCompatActivity() {
 
         (application as CommentsApplication).commentsComponent.inject(this)
 
-        pagingRecyclerView.layoutManager = GridLayoutManager(this, DEFAULT_SPAN_COUNT)
-        pagingRecyclerView.adapter = adapter
-
         viewModel = ViewModelProviders.of(this, viewModelFactory)[CommentsViewModel::class.java]
 
         viewModel.state.observeNonNull(this) {
             when (it) {
                 is LoadingFirstPage -> progressBar.visibility = View.VISIBLE
                 is Paging -> adapter.isPaging = true
-                is Results -> {
-                    progressBar.visibility = View.GONE
+                is Results -> hideProgressIndicators()
+                is Refreshing -> {
+                    // if we refresh while paging (an unlikely edge case without a forced network delay)  you might
+                    // see the paging view move to the top of the screen. This prevents that from happening.
                     adapter.isPaging = false
                 }
             }
@@ -49,6 +49,19 @@ class CommentsActivity : AppCompatActivity() {
         viewModel.pagedList.observeNonNull(this) {
             adapter.submitList(it)
         }
+
+        pagingRecyclerView.layoutManager = GridLayoutManager(this, DEFAULT_SPAN_COUNT)
+        pagingRecyclerView.adapter = adapter
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
+    }
+
+    private fun hideProgressIndicators() {
+        progressBar.visibility = View.GONE
+        adapter.isPaging = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     companion object {
