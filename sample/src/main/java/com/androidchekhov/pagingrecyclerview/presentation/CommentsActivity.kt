@@ -1,7 +1,6 @@
 package com.androidchekhov.pagingrecyclerview.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
@@ -13,7 +12,7 @@ import com.androidchekhov.pagingrecyclerview.domain.LoadingFirstPage
 import com.androidchekhov.pagingrecyclerview.domain.Paging
 import com.androidchekhov.pagingrecyclerview.domain.Refreshing
 import com.androidchekhov.pagingrecyclerview.domain.Results
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_comments.*
 import javax.inject.Inject
 
 class CommentsActivity : AppCompatActivity() {
@@ -27,7 +26,7 @@ class CommentsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_comments)
 
         (application as CommentsApplication).commentsComponent.inject(this)
 
