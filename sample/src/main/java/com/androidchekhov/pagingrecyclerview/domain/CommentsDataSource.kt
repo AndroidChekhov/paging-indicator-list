@@ -4,22 +4,24 @@ import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.androidchekhov.pagingrecyclerview.repository.Comment
 import com.androidchekhov.pagingrecyclerview.repository.CommentsRepository
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.inject.Inject
 
-
+/**
+ * The [PageKeyedDataSource] implementation for loading paged data from the [commentsRepository].
+ */
 class CommentsDataSource @Inject constructor(
     private val store: CommentsStore,
     private val commentsRepository: CommentsRepository
 ) : PageKeyedDataSource<Int, Comment>() {
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Comment>) {
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Comment>) = runBlocking<Unit> {
         store.logAndSend(OnFirstPageLoading, "loading first page")
 
-        GlobalScope.launch {
+        launch {
             val comments = commentsRepository.getComments(1)
 
             store.logAndSend(OnFirstPageResults,"first page result size: ${comments.size}")
@@ -32,10 +34,10 @@ class CommentsDataSource @Inject constructor(
         }
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Comment>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Comment>) = runBlocking<Unit> {
         store.logAndSend(OnNextPageLoading, "loading page ${params.key}")
 
-        GlobalScope.launch {
+        launch {
             val comments = commentsRepository.getComments(params.key)
 
             store.logAndSend(OnNextPageResults, "page ${params.key} result size: ${comments.size}")

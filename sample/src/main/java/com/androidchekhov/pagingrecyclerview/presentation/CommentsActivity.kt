@@ -38,7 +38,7 @@ class CommentsActivity : AppCompatActivity() {
                 is Paging -> adapter.isPaging = true
                 is Results -> hideProgressIndicators()
                 is Refreshing -> {
-                    // if we refresh while paging (an unlikely edge case without a forced network delay)  you might
+                    // if we refresh while paging (an unlikely edge case without a forced network delay) you might
                     // see the paging view move to the top of the screen. This prevents that from happening.
                     adapter.isPaging = false
                 }
