@@ -33,7 +33,7 @@ class MockCommentsRepository : CommentsRepository {
         Comment(
             id.toString(),
             "username",
-            "Dec 1",
+            "date",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nibh molestie, consectetur risus at, semper nisl. Nulla nulla lectus, bibendum ac arcu sed, convallis vulputate urna."
         )
 }
