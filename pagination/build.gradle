@@ -19,7 +19,7 @@ ext {
 
     libraryVersion = '1.0.0'
 
-    developerId = 'androidchekhov'
+    developerId = 'seanothomas'
     developerName = 'Sean Thomas'
     developerEmail = 'sean.owen.thomas@gmail.com'
 
