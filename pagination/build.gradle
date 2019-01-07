@@ -1,32 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-
-ext {
-
-    bintrayRepo = "PagingIndicatorList"
-    bintrayName = "com.androidchekhov.pagination"
-
-    publishedGroupId = 'com.androidchekhov.pagination'
-    libraryName = 'pagination'
-    artifact = 'pagination'
-
-    libraryDescription = 'Easier support of a paging indicator view with the Paging Library'
-
-    siteUrl = 'https://github.com/AndroidChekhov/paging-indicator-list'
-    gitUrl = 'https://github.com/AndroidChekhov/paging-indicator-list.git'
-
-    libraryVersion = '1.0.0'
-
-    developerId = 'seanothomas'
-    developerName = 'Sean Thomas'
-    developerEmail = 'sean.owen.thomas@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 
 android {
 
@@ -56,10 +29,4 @@ dependencies {
 
 repositories {
     mavenCentral()
-}
-
-
-if (project.rootProject.file('local.properties').exists()) {
-    apply from: 'https://raw.githubusercontent.com/wajahatkarim3/JCenter-Gradle-Scripts/master/install.gradle'
-    apply from: 'https://raw.githubusercontent.com/wajahatkarim3/JCenter-Gradle-Scripts/master/bintray.gradle'
 }
